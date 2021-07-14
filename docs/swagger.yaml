@@ -1,0 +1,284 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Fairs API
+  description: CRUD and import fairs list
+host: localhost:8080
+schemes: [ http, https ]
+consumes:
+- application/json
+produces:
+- application/json
+
+paths:
+  /health-check:
+    get:
+      description: Check if the api is working
+      summary: Check if the api is working
+      tags:
+      - health-check
+      responses:
+        200:
+          description: Server Status
+  /api/v1/fairs:
+    get:
+      description: A list of all fairs
+      summary: Fairs list
+      tags:
+      - fairs
+      parameters:
+      - name: search
+        in: query
+        required: false
+        type: string
+        description: text to be filtered
+      - name: ignorePagination
+        in: query
+        required: false
+        type: boolean
+        description: if result should be paged
+      - name: select
+        in: query
+        required: false
+        type: array
+        description: attributes result
+      - name: page
+        in: query
+        required: false
+        type: integer
+        description: number of page
+      responses:
+        200:
+          description: A list of fairs
+          schema:
+            type: array
+            $ref: '#/definitions/ArrayOfFairs'
+    post:
+      description: Creates a new fair
+      summary: Creates a new fair
+      tags:
+      - fairs
+      parameters:
+        - in: body
+          name: user
+          description: The Fair to create.
+          schema:
+            $ref: '#/definitions/FairPost'
+      responses:
+        201:
+          description: A fair
+          schema:
+            $ref: '#/definitions/Fair'
+  /api/v1/fairs/{id}:
+    get:
+      description: Fairs record
+      summary: Get a Fairs record
+      tags:
+      - fairs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+      responses:
+        200:
+          description: A fair
+          schema:
+            $ref: '#/definitions/Fair'
+    put:
+      description: Updates a Fair record
+      summary: Updates a Fair record
+      tags:
+      - fairs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: integer
+      - name: body
+        in: body
+        schema:
+          type: object
+      - in: body
+        name: user
+        description: The Fair to create.
+        schema:
+          $ref: '#/definitions/FairPut'
+      responses:
+        201:
+          description: A fair
+          schema:
+            $ref: '#/definitions/Fair'
+    delete:
+      description: Delete Fair
+      summary: Delete the given Fair
+      tags:
+      - fairs
+      parameters:
+      - name: registro
+        in: path
+        required: true
+        type: integer
+      responses:
+        200:
+          description: OK
+  /api/v1/imports/fair:
+    post:
+      description: Import File
+      summary: Import a .xls file to db
+      tags:
+      - imports
+      parameters:
+      - in: formData
+        name: file
+        type: file
+        description: The file to upload.
+      consumes:
+        - multipart/form-data
+        - application/x-www-form-urlencoded
+      responses:
+        200:
+          description: OK
+
+definitions:
+  ArrayOfFairs:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        long:
+          type: string
+        lat:
+          type: string
+        setcens:
+          type: string
+        areap:
+          type: string
+        coddist:
+          type: string
+        distrito:
+          type: string
+        codsubpref:
+          type: string
+        subprefe:
+          type: string
+        regiao5:
+          type: string
+        regiao8:
+          type: string
+        nomeFeira:
+          type: string
+        registro:
+          type: string
+        logradouro:
+          type: string
+        numero:
+          type: string
+        bairro:
+          type: string
+        active:
+          type: string
+  Fair:
+    properties:
+      id:
+        type: integer
+      long:
+        type: string
+      lat:
+        type: string
+      setcens:
+        type: string
+      areap:
+        type: string
+      coddist:
+        type: string
+      distrito:
+        type: string
+      codsubpref:
+        type: string
+      subprefe:
+        type: string
+      regiao5:
+        type: string
+      regiao8:
+        type: string
+      nomeFeira:
+        type: string
+      registro:
+        type: string
+      logradouro:
+        type: string
+      numero:
+        type: string
+      bairro:
+        type: string
+      active:
+        type: string
+  FairPost:
+    properties:
+      long:
+        type: string
+      lat:
+        type: string
+      setcens:
+        type: string
+      areap:
+        type: string
+      coddist:
+        type: string
+      distrito:
+        type: string
+      codsubpref:
+        type: string
+      subprefe:
+        type: string
+      regiao5:
+        type: string
+      regiao8:
+        type: string
+      nomeFeira:
+        type: string
+      registro:
+        type: string
+      logradouro:
+        type: string
+      numero:
+        type: string
+      bairro:
+        type: string
+      active:
+        type: string
+  FairPut:
+    properties:
+      long:
+        type: string
+      lat:
+        type: string
+      setcens:
+        type: string
+      areap:
+        type: string
+      coddist:
+        type: string
+      distrito:
+        type: string
+      codsubpref:
+        type: string
+      subprefe:
+        type: string
+      regiao5:
+        type: string
+      regiao8:
+        type: string
+      nomeFeira:
+        type: string
+      logradouro:
+        type: string
+      numero:
+        type: string
+      bairro:
+        type: string
+      active:
+        type: string
